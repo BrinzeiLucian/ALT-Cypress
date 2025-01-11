@@ -3,4 +3,4 @@
         cy.visit('https://www.airportlabs.com/');
         cy.title().should('include', 'AirportLabs');
     })
-});
+}); 
