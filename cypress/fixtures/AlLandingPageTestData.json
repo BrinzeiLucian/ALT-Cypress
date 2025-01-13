@@ -1,0 +1,13 @@
+{
+    "customersTitleFontSize":"36px",
+    "customersTitleFontFamily":"Satoshi, sans-serif",
+    "customersTitleColor":"rgb(255, 255, 255)",
+
+    "activityStatTextFontSize":"40px",
+    "activityStatTextFontFamily":"Satoshi, sans-serif",
+    "activityStatTextColor":"rgb(82, 206, 147)",
+
+    "activityStatDescFontSize":"20px",
+    "activityStatDescFontFamily":"Satoshi, sans-serif",
+    "activityStatDescColor":"rgb(255, 255, 255)"
+}

@@ -23,3 +23,23 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('goTo', (url, title) => {
+    cy.visit(url)
+    cy.title().should('contain', title)
+})
+
+Cypress.Commands.add('getText', (locator, text) => {
+    cy.get(locator)
+    .scrollIntoView()
+    .should('be.visible')
+    .and('have.text', text)
+})
+
+Cypress.Commands.add(('clickButton'), (locator, attribute, value)=>{
+    cy.get(locator)
+    .scrollIntoView()
+    .should('be.visible')
+    .and('have.attr', attribute, value)
+    .click()
+})
