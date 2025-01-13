@@ -1,50 +1,71 @@
-import selectors from '../../support/selectors.js';
+import LandingPage from '../../support/pageObjects/AlLandingPage.cy.js';
+import ContactPage from '../../support/pageObjects/AlContactPage.cy.js';
 const testdata = require("../../fixtures/AlLandingPageTestData.json")
 
-describe('Landing Page Tests', () => {
+describe('Landing Page Tests', () => {    
+    const landingPage = new LandingPage();
+    const contactPage = new ContactPage();
+
     beforeEach(() => {
-        cy.goTo('https://www.airportlabs.com/', 'AirportLabs');
+        cy.goTo('https://www.airportlabs.com/', 'airportlabs');
     })
 
     context('CSS Validations', () =>{
         it('Validate "Our customers" section header CSS properties', () => {
-            cy.getText(selectors.customersTitle, "Trusted by 60+ Airports worldwide")
+            cy.getText(landingPage.selectors.customersTitle, "Trusted by 60+ Airports worldwide")
             .should('have.css', 'font-size', testdata.customersTitleFontSize)
             .and('have.css', 'font-family', testdata.customersTitleFontFamily) 
             .and('have.css', 'color', testdata.customersTitleColor)
         });
     
         it('Validate "Our Activity" section statistics CSS properties', () => {
-            //Check statistic value
-            cy.getText(selectors.activityStat, "300k")
+            cy.getText(landingPage.selectors.activityStat, "300k")
             .should('have.css', 'font-size', testdata.activityStatTextFontSize)
             .and('have.css', 'font-family', testdata.activityStatTextFontFamily)
             .and('have.css', 'color', testdata.activityStatTextColor)
             
-            //Check statistic description
-            cy.getText(selectors.activityStatDesc, "Users Worldwide")
+            cy.getText(landingPage.selectors.activityStatDesc, "Users Worldwide")
             .should('have.css', 'font-size', testdata.activityStatDescFontSize)
             .and('have.css', 'font-family', testdata.activityStatDescFontFamily) 
             .and('have.css', 'color', testdata.activityStatDescColor)
         });
 
         it('Validate logo CSS properties in page footer', () => {
-            cy.get('.image-103')
-            .should('have.attr', 'src', 'https://cdn.prod.website-files.com/621780e23ce4730dbde38ef2/654c971b692cc2544a40527c_aeroportosportugal.png')
-            .and((el => expect(el.width()).eq(110)))
-            .and((el => expect(el.height()).eq(62.8)))
+            landingPage.getImageProperty(
+                landingPage.selectors.footerLogo, 
+                testdata.logoSrc, 
+                testdata.logoWidth, 
+                testdata.logoHeight
+            )
         });
     })
     
     context('User Flow', () =>{
-        it('User can successfully use "Get in Touch" section', () => {
-            cy.clickButton('.button-row > .button', 'href', '/other/get-in-touch')
-            cy.title().should('contain', 'Contact')
+        it('User can successfully use "Get in Touch" section and Contact form', () => {
+            cy.clickButton(landingPage.selectors.contactBtn, landingPage.selectors.contactBtnValue)
+            cy.getPage('/get-in-touch')
+            cy.getModal(contactPage.selectors.contactModal)
+            contactPage.submitContactForm(
+                testdata.contactName,
+                testdata.contactCompany,
+                testdata.contactEmail,
+                testdata.contactPhone,
+                testdata.contactMessage
+            )
+        });
+        
+        context('Footer media pages', () => {
+            it('User is succesfully redirected to Facebook', () => {
+              landingPage.getMediaTab(landingPage.selectors.facebookLocator, testdata.facebookTitle)  
+            });
 
-        });
-    
-        it('User is succesfully redirected to media pages', () => {
-            
-        });
+            it('User is succesfully redirected to Instagram', () => {
+                landingPage.getMediaTab(landingPage.selectors.instagramLocator, testdata.instagramTitle)
+            });
+
+            it('User is succesfully redirected to LinkedIn', () => {
+                landingPage.getMediaTab(landingPage.selectors.linkedinLocator, testdata.linkedinTitle)
+            });
+        })
     })
 });

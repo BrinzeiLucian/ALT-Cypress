@@ -25,21 +25,37 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('goTo', (url, title) => {
-    cy.visit(url)
-    cy.title().should('contain', title)
+    cy
+        .visit(url)
+        .url().should('contain', title)
+})
+
+Cypress.Commands.add('getPage', (title) => {
+    cy
+        .url()
+        .should('contain', title)
 })
 
 Cypress.Commands.add('getText', (locator, text) => {
-    cy.get(locator)
-    .scrollIntoView()
-    .should('be.visible')
-    .and('have.text', text)
+    cy
+        .get(locator)
+        .scrollIntoView()
+        .should('be.visible')
+        .and('have.text', text)
 })
 
-Cypress.Commands.add(('clickButton'), (locator, attribute, value)=>{
-    cy.get(locator)
-    .scrollIntoView()
+Cypress.Commands.add(('clickButton'), (locator, value) => {
+    cy
+        .get(locator)
+        .scrollIntoView()
+        .should('be.visible')
+        .and('have.attr', 'href', value)
+        .click()
+})
+
+
+Cypress.Commands.add(('getModal'), (locator) => {
+    cy
+    .get(locator)
     .should('be.visible')
-    .and('have.attr', attribute, value)
-    .click()
 })
