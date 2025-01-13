@@ -1,6 +1,6 @@
 import LandingPage from '../../support/pageObjects/AlLandingPage.cy.js';
 import ContactPage from '../../support/pageObjects/AlContactPage.cy.js';
-const testdata = require("../../fixtures/AlLandingPageTestData.json")
+const testdata = require("../../fixtures/AlTestData.json")
 
 describe('Landing Page Tests', () => {    
     const landingPage = new LandingPage();
